@@ -1,4 +1,3 @@
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const express = require("express");
 const path = require("path");
 const { OpenAIAPI } = require("./openai");
@@ -11,18 +10,14 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
-  console.log(__dirname);
 });
 
 app.post("/getChatbotResponse", async (req, res) => {
   const userMessage = req.body.userMessage;
-
-  // Use OpenAI API to generate a response
   const chatbotResponse = await OpenAIAPI.generateResponse(userMessage);
-
-  // Send the response back to the client
   res.json({ chatbotResponse });
 });
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
